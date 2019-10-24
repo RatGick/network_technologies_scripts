@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
 # ip_and_mask_get.py - generates IPv4 with the given class
 
-import random
+from random import randint
 
 # Generate random IP
 ip_address = []
 
 for i in range(4):
-    octet = random.randint(1, 255)
+    octet = randint(1, 255)
     ip_address.append(octet)
 
 # Generate random mask
 mask = []
 
-first_octet = random.randint(1, 255)
+first_octet = randint(1, 255)
 if first_octet == 255:
-    second_octet = random.randint(1, 255)
+    second_octet = randint(1, 255)
     if second_octet == 255:
-        third_octet = random.randint(1, 255)
+        third_octet = randint(1, 255)
         if third_octet == 255:
-            fourth_octet = random.randint(1, 254)
+            fourth_octet = randint(1, 254)
         else:
             fourth_octet = 0
     else:
