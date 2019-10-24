@@ -3,12 +3,6 @@
 
 import random
 
-
-def generate_octet(start, stop):
-    octet = str(random.randint(start, stop))
-    return octet
-
-
 # Generate random IP
 ip_address = []
 
