@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-# ip_and_mask_get.py - generates IPv4 with the given class
+# ip_and_mask_get.py - generates IPv4, mask and corresponding network IP
 
 from random import randint
 
 # Generate random IP
 ip_address = []
-
 for i in range(4):
     octet = randint(1, 255)
     ip_address.append(octet)
