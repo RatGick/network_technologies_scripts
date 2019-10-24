@@ -4,10 +4,7 @@
 from random import randint
 
 # Generate random IP
-ip_address = []
-for i in range(4):
-    octet = randint(1, 255)
-    ip_address.append(octet)
+ip_address = [randint(1, 255) for i in range(4)]
 
 # Generate random mask in number format (192.168.1.3/25)
 mask_number = randint(1, 31)
@@ -23,12 +20,7 @@ for i in range(0, 32, 8):
     mask.append(octet)
 
 # Generate network IP
-i = 0
-network = []
-for ip_octet in ip_address:
-    network_octet = ip_octet & mask[i]
-    network.append(network_octet)
-    i += 1
+network = [ip_address[i] & mask[i] for i in range(len(ip_address))]
 
 for i in range(len(ip_address)):
     ip_address[i] = str(ip_address[i])
