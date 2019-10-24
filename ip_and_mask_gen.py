@@ -10,30 +10,18 @@ for i in range(4):
     octet = randint(1, 255)
     ip_address.append(octet)
 
-# Generate random mask
+# Generate random mask in number format (192.168.1.3/25)
+mask_number = randint(1, 31)
+# Create mask in binary representation
+mask_bin_ones = '1' * mask_number
+mask_bin_zeros = '0' * (32 - mask_number)
+mask_bin = mask_bin_ones + mask_bin_zeros
+# Split it into octets:
 mask = []
-
-first_octet = randint(1, 255)
-if first_octet == 255:
-    second_octet = randint(1, 255)
-    if second_octet == 255:
-        third_octet = randint(1, 255)
-        if third_octet == 255:
-            fourth_octet = randint(1, 254)
-        else:
-            fourth_octet = 0
-    else:
-        third_octet = 0
-        fourth_octet = 0
-else:
-    second_octet = 0
-    third_octet = 0
-    fourth_octet = 0
-
-mask.append(first_octet)
-mask.append(second_octet)
-mask.append(third_octet)
-mask.append(fourth_octet)
+for i in range(0, 32, 8):
+    octet = mask_bin[i:i+8]
+    octet = int(octet, 2)
+    mask.append(octet)
 
 # Generate network IP
 i = 0
