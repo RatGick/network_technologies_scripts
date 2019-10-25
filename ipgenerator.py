@@ -1,64 +1,52 @@
 #!/usr/bin/env python3
 # ipgenerator.py - generates IPv4 with the given class
-# Don't work
 # Usage:
-#       ipgenerator.py ip_class
+#       py ipgenerator.py ip_class
 # ip_class - A, B, C, D, E
 
 import sys
-import random
+from random import randint, getrandbits
 
 # Take ip_class from command line
-ip_class = sys.argv[1]
-ip_address = []
+ip_class = str(sys.argv[1])
+
+# Create first octet corresponding to the given ip_class
 if ip_class == 'A':
     fixed_part = '0'
-    # Because there is already one digit into first octet, get 7-digit number
-    changing_part = str(bin(random.getrandbits(7)))[2:]  # Because two first digits - bin header (0b)
-    first_octet = str(int(fixed_part + changing_part, 2))  # Convert into decimal
-    ip_address.append(first_octet)
+    remaining_part = bin(getrandbits(7))[2:]
+    if len(remaining_part) < 7:  # Because the function could generate any number which bit repr smaller than 8 digits
+        remaining_part = (7-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 elif ip_class == 'B':
     fixed_part = '10'
-    # Because there is already two digit into first octet, get 6-digit number
-    changing_part = str(bin(random.getrandbits(6)))[2:]  # Because two first digits - bin header (0b)
-    first_octet = str(int(fixed_part + changing_part, 2))  # Convert into decimal
-    ip_address.append(first_octet)
+    remaining_part = bin(getrandbits(6))[2:]
+    if len(remaining_part) < 6:  # Because the function could generate any number which bit repr smaller than 7 digits
+        remaining_part = (6-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 elif ip_class == 'C':
     fixed_part = '110'
-    # Because there is already three digit into first octet, get 5-digit number
-    changing_part = str(bin(random.getrandbits(5)))[2:]  # Because two first digits - bin header (0b)
-    first_octet = str(int(fixed_part + changing_part, 2))  # Convert into decimal
-    ip_address.append(first_octet)
+    remaining_part = bin(getrandbits(5))[2:]
+    if len(remaining_part) < 5:  # Because the function could generate any number which bit repr smaller than 6 digits
+        remaining_part = (5-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 elif ip_class == 'D':
     fixed_part = '1110'
-    # Because there is already four digit into first octet, get 4-digit number
-    changing_part = str(bin(random.getrandbits(4)))[2:]  # Because two first digits - bin header (0b)
-    first_octet = str(int(fixed_part + changing_part, 2))  # Convert into decimal
-    ip_address.append(first_octet)
+    remaining_part = bin(getrandbits(4))[2:]
+    if len(remaining_part) < 4:  # Because the function could generate any number which bit repr smaller than 5 digits
+        remaining_part = (4-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 elif ip_class == 'E':
     fixed_part = '11110'
-    # Because there is already five digit into first octet, get 3-digit number
-    changing_part = str(bin(random.getrandbits(3)))[2:]  # Because two first digits - bin header (0b)
-    first_octet = str(int(fixed_part + changing_part, 2))  # Convert into decimal
-    ip_address.append(first_octet)
+    remaining_part = bin(getrandbits(3))[2:]
+    if len(remaining_part) < 3:  # Because the function could generate any number which bit repr smaller than 4 digits
+        remaining_part = (3-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 else:
-    print('Wrong ip class, please enter A, B, C, D or E')
+    raise ValueError('IP class is not correct')
+first_octet = str(int(fixed_part + remaining_part, 2))
+ip_address = [first_octet]
 
-second_octet = str(bin(random.getrandbits(8)))
-second_octet = str(int(second_octet, 2))  # Convert into decimal
-ip_address.append(second_octet)
+# Generate other octets
+for i in range(3):
+    octet = str(randint(1, 255))
+    ip_address.append(octet)
 
-third_octet = str(bin(random.getrandbits(8)))
-third_octet = str(int(third_octet, 2))  # Convert into decimal
-ip_address.append(third_octet)
-
-fourth_octet = str(bin(random.getrandbits(8)))
-fourth_octet = str(int(fourth_octet, 2))  # Convert into decimal
-ip_address.append(fourth_octet)
-
-# Print result
 print('.'.join(ip_address))
-
 
 
 
