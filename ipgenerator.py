@@ -13,31 +13,21 @@ ip_class = str(sys.argv[1])
 # Create first octet corresponding to the given ip_class
 if ip_class == 'A':
     fixed_part = '0'
-    remaining_part = bin(getrandbits(7))[2:]
-    if len(remaining_part) < 7:  # Because the function could generate any number which bit repr smaller than 8 digits
-        remaining_part = (7-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 elif ip_class == 'B':
     fixed_part = '10'
-    remaining_part = bin(getrandbits(6))[2:]
-    if len(remaining_part) < 6:  # Because the function could generate any number which bit repr smaller than 7 digits
-        remaining_part = (6-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 elif ip_class == 'C':
     fixed_part = '110'
-    remaining_part = bin(getrandbits(5))[2:]
-    if len(remaining_part) < 5:  # Because the function could generate any number which bit repr smaller than 6 digits
-        remaining_part = (5-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 elif ip_class == 'D':
     fixed_part = '1110'
-    remaining_part = bin(getrandbits(4))[2:]
-    if len(remaining_part) < 4:  # Because the function could generate any number which bit repr smaller than 5 digits
-        remaining_part = (4-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 elif ip_class == 'E':
     fixed_part = '11110'
-    remaining_part = bin(getrandbits(3))[2:]
-    if len(remaining_part) < 3:  # Because the function could generate any number which bit repr smaller than 4 digits
-        remaining_part = (3-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 else:
-    raise ValueError('IP class is not correct')
+    raise ValueError('Incorrect IP class. Please, enter either A, B, C, D or E')
+# Evaluate the number of digits in the first octet that should be filled
+diff = 8 - len(fixed_part)
+remaining_part = bin(getrandbits(diff))[2:]  # Generate a digit with the needed length of bin repr, cut off '0b' part
+if len(remaining_part) < diff:  # Because the function could generate any number which bin repr smaller than 8 digits
+    remaining_part = (diff-len(remaining_part)) * '0' + remaining_part  # Add insufficient zeros in the octet beginning
 first_octet = str(int(fixed_part + remaining_part, 2))
 ip_address = [first_octet]
 
