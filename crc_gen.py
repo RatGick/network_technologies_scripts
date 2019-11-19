@@ -35,3 +35,12 @@ while True:
 
 print(f'Original bits: {get_print_form(polynom)}, remainder: {get_print_form(remainder)}')
 print(f'CRC polynom: {get_print_form(divisor)}, bits with CRC: {get_print_form(polynom_with_remainder)}')
+
+# Introducing an error
+random_index = random.randint(0, len(polynom_with_remainder)-1)
+if polynom_with_remainder[random_index] == 1:
+    polynom_with_remainder[random_index] = 0
+else:
+    polynom_with_remainder[random_index] = 1
+
+print(np.polydiv(polynom_with_remainder, divisor)[1], f'with {get_print_form(polynom_with_remainder)}, error in {random_index+1}-th bit')
